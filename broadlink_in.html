@@ -3,13 +3,14 @@
         category: 'input',
         color: '#00ade5',
         defaults: {
-            name: {value:""}
+            name: { value: "" },
+            dev: { value: "", required: true, type: "broadlink-dev" }
         },
-        inputs:0,
-        outputs:1,
+        inputs: 0,
+        outputs: 1,
         icon: "arrow-in.png",
         label: function() {
-            return this.name||"broadlink_in";
+            return this.name||"broadlink in";
         }
     });
 </script>
@@ -17,10 +18,62 @@
 <script type="text/x-red" data-template-name="broadlink_in">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="Name"/>
+    </div>
+    <div class="form-row">
+        <label for="node-input-dev">Device</label>
+        <input type="text" id="node-input-dev" placeholder="Device">
     </div>
 </script>
 
 <script type="text/x-red" data-help-name="broadlink_in">
-    <p>A simple node that converts the message payloads into all lower-case characters</p>
+    <p>A node for receiving messages from Broadlink devices.</p>
+</script>
+
+<script type="text/x-red" data-template-name="broadlink-dev">
+    <div class="form-row">
+        <label for="node-config-input-device"><i class="fa fa-tasks"></i> Device</label>
+        <select size="4" id="node-config-input-device">
+        </select>
+    </div>
+    <br/>
+    <div class="form-row">
+      <label for="node-config-input-type"><i class="fa fa-tasks"></i> Type</label>
+      <input type="text" editable="false" id="node-config-input-type" placeholder="Type"/>
+      <input type="hidden" editable="false"  id="node-config-input-name"/>
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('broadlink-dev',{
+        category: 'config',      // the palette category
+        defaults: {             // defines the editable properties of the node
+            device: {value:"", required: true},   //  along with default values.
+            name: {value: ""}
+        },
+        label: function() {     // sets the default label contents
+            return this.name;
+        },
+        oneditprepare: function() {
+            var devices = {};
+            
+            $.getJSON('broadlinkjs/devices', function(data) {
+                var devs = data;
+                for (var d in devs) {
+                    devices[data[d].id] = data[d];
+                        $('<option/>',{
+                            'value': data[d].id,
+                            'text': data[d].name
+                        }).appendTo('#node-config-input-device');
+                }
+            });
+            $('#node-config-input-device').change(function() {
+                var id = $( "#node-config-input-device option:selected" ).first().val();
+                if (devices && id) {
+                    $('#node-config-input-type').val(devices[id].id);
+                    $('#node-config-input-name').val(devices[id].name);
+                }
+            });
+        }
+    });
 </script>

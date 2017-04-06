@@ -1,0 +1,32 @@
+{
+  "name": "node-red-node-broadlink",
+  "version": "0.0.1",
+  "description": "A broadlink node for Node-RED",
+  "dependencies": {
+    "broadlinkjs": "github:jtomaszk/broadlinkjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jtomaszk/node-red-node-broadlink.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node-red",
+    "broadlink"
+  ],
+  "node-red": {
+    "nodes": {
+      "broadlink": "broadlink.js"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/jtomaszk/node-red-node-broadlink/issues"
+  },
+  "homepage": "https://github.com/jtomaszk/node-red-node-broadlink#readme",
+  "main": "broadlink.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jarema Tomaszkiewicz"
+}

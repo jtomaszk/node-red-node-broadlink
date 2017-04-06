@@ -7,9 +7,9 @@ Install
 -------
 
 Run the following command in the root directory of your Node-RED install
-<!--
-        npm install node-red-node-openweathermap
--->
+
+        npm install github:jtomaszk/node-red-node-broadlink
+
 Usage
 -----
 <!--
